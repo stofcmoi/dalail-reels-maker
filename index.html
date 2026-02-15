@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>صانع ريلز دلائل الخيرات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">۞</div>
+      <div>
+        <div class="title">صانع ريلز دلائل الخيرات</div>
+        <div class="subtitle">أنشئ فيديو عمودي 9:16 بنص + صوت + خلفية ثم حمّل MP4</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="navlink" href="#maker">الإنشاء</a>
+      <a class="navlink" href="#timings">التوقيتات (Admin)</a>
+      <a class="navlink" href="#help">المساعدة</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section id="maker" class="card">
+      <div class="card-h">
+        <h2>إعدادات الفيديو</h2>
+        <div class="pill">9:16 • MP4 • RTL</div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <h3>النص</h3>
+          <div class="row">
+            <label>الحزب</label>
+            <select id="partSelect"></select>
+          </div>
+
+          <div class="row">
+            <label>لغة الترجمة</label>
+            <select id="trLang">
+              <option value="none">بدون ترجمة</option>
+              <option value="en">English</option>
+              <option value="fr">Français</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <label>تحميل النص</label>
+            <button class="btn" id="loadBtn">جلب نص الحزب</button>
+          </div>
+
+          <div class="row two">
+            <div>
+              <label>من الجملة</label>
+              <select id="fromIdx"></select>
+            </div>
+            <div>
+              <label>إلى الجملة</label>
+              <select id="toIdx"></select>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="chk"><input id="showMeta" type="checkbox" checked /> إظهار رقم الحزب واسم القارئ</label>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>الصوت</h3>
+          <div class="row">
+            <label>القارئ</label>
+            <select id="readerSelect"></select>
+          </div>
+          <div class="hint">الصوت يعتمد على <b>ملف MP3 واحد لكل حزب</b> لكل قارئ + ملف توقيتات JSON (يُنشأ من صفحة Admin).</div>
+
+          <div class="row">
+            <label>تشغيل مقطع المعاينة</label>
+            <button class="btn secondary" id="playPreview">تشغيل</button>
+            <button class="btn ghost" id="stopPreview">إيقاف</button>
+          </div>
+
+          <audio id="audioEl" preload="none" crossorigin="anonymous"></audio>
+
+          <div class="divider"></div>
+
+          <h3>الخلفية</h3>
+          <div class="row">
+            <label>لون</label>
+            <div class="swatches" id="swatches"></div>
+          </div>
+
+          <div class="row">
+            <label>أو ارفع صورة</label>
+            <input id="bgUpload" type="file" accept="image/*" />
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>النص (الستايل)</h3>
+          <div class="row">
+            <label>حجم الخط</label>
+            <input id="fontSize" type="range" min="42" max="90" value="64" />
+          </div>
+          <div class="row">
+            <label>لون النص</label>
+            <input id="textColor" type="color" value="#F6D77A" />
+          </div>
+          <div class="row">
+            <label>ظل النص</label>
+            <input id="shadow" type="range" min="0" max="20" value="10" />
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>التصدير</h3>
+          <div class="row">
+            <button class="btn gold" id="exportBtn">تصدير MP4</button>
+          </div>
+          <div class="hint" id="exportHint"></div>
+        </div>
+
+        <div class="panel">
+          <h3>المعاينة الحية</h3>
+          <div class="previewWrap">
+            <canvas id="preview" width="1080" height="1920"></canvas>
+          </div>
+          <div class="hint">المعاينة 9:16 (1080×1920). أي تغيير سيظهر مباشرة.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timings" class="card">
+      <div class="card-h">
+        <h2>Admin: إنشاء توقيتات الجمل (JSON)</h2>
+        <div class="pill">mp3 → start/end لكل جملة</div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <h3>1) اختر الحزب ثم اجلب نصه</h3>
+          <div class="row">
+            <label>الحزب</label>
+            <select id="admPart"></select>
+          </div>
+          <div class="row">
+            <label>جلب النص</label>
+            <button class="btn" id="admLoad">جلب</button>
+          </div>
+
+          <h3>2) ضع رابط mp3 لهذا الحزب</h3>
+          <div class="row">
+            <label>MP3 URL</label>
+            <input id="admMp3" type="url" placeholder="https://.../part1.mp3" />
+          </div>
+          <div class="hint">يجب أن يكون الرابط مباشرًا ويسمح بالتحميل من المتصفح (CORS) حتى ينجح التصدير.</div>
+
+          <div class="row">
+            <button class="btn secondary" id="admPlay">تشغيل</button>
+            <button class="btn ghost" id="admPause">إيقاف مؤقت</button>
+            <button class="btn ghost" id="admStop">توقيف</button>
+          </div>
+
+          <audio id="admAudio" preload="none" crossorigin="anonymous"></audio>
+
+          <div class="divider"></div>
+
+          <h3>3) حدّد البداية والنهاية للجملة الحالية</h3>
+          <div class="row two">
+            <button class="btn" id="markStart">تعيين البداية</button>
+            <button class="btn" id="markEnd">تعيين النهاية</button>
+          </div>
+          <div class="row two">
+            <div class="kv"><div class="k">Start</div><div class="v" id="startVal">—</div></div>
+            <div class="kv"><div class="k">End</div><div class="v" id="endVal">—</div></div>
+          </div>
+
+          <div class="row two">
+            <button class="btn secondary" id="saveTiming">حفظ الجملة</button>
+            <button class="btn ghost" id="clearTiming">مسح</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3>4) تنزيل ملف التوقيتات</h3>
+          <div class="row">
+            <button class="btn gold" id="downloadTimings">تنزيل JSON</button>
+          </div>
+          <div class="hint">الملف الناتج يكون باسم: <b>timings_partX.json</b> ويمكن وضعه في مجلد <b>/timings</b> داخل المشروع.</div>
+        </div>
+
+        <div class="panel">
+          <h3>قائمة الجمل</h3>
+          <div class="hint">اضغط على أي جملة لتعيينها كـ "الجملة الحالية" ثم ضع Start/End.</div>
+          <div id="sentenceList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="help" class="card">
+      <div class="card-h">
+        <h2>ملاحظات تشغيل مهمة</h2>
+      </div>
+      <ul class="bullets">
+        <li>التطبيق يجلب النص من dalailalkhayrat.com عبر API داخل Vercel. المصدر يحتوي صيغة "سيدنا" داخل النص العربي. citeturn0view0</li>
+        <li>التصدير MP4 يعمل داخل المتصفح عبر FFmpeg WASM. التصدير يحتاج وقتًا حسب طول المقطع وقوة الهاتف.</li>
+        <li>إذا لم يعمل الصوت أو التصدير: السبب غالبًا أن رابط mp3 لا يدعم CORS أو ليس رابطًا مباشرًا.</li>
+      </ul>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
