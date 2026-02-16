@@ -45,15 +45,14 @@ export function ExportPanel(props: {
     renderFrame(ctx, 0);
 
     try {
-      const blob = await originalExport({
-        canvas,
-        fps,
-        durationSec,
-        audioUrl,
-        startSec,
-        endSec,
-        onProgress: (p) => setProgress(p),
-      });
+      const blob = await (originalExport as any)({
+  canvas,
+  fps,
+  durationSec,
+  audioUrl,
+  onProgress: (p: number) => setProgress(p),
+});
+
 
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
