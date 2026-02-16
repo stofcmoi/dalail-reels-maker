@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #070a12;
+  color: #f4f4f5;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.islamic-pattern {
+  background-image:
+    radial-gradient(circle at 25% 15%, rgba(245,211,125,0.25), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(245,211,125,0.18), transparent 45%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><path fill='none' stroke='%23f5d37d' stroke-width='1' d='M60 5 L75 20 L60 35 L45 20 Z M60 35 L75 50 L60 65 L45 50 Z M60 65 L75 80 L60 95 L45 80 Z'/></svg>");
+  background-repeat: repeat;
+  background-size: auto, auto, 160px 160px;
+}
