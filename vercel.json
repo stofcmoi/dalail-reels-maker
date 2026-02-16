@@ -1,5 +1,0 @@
-{
-  "functions": {
-    "api/part.js": { "runtime": "nodejs18.x" }
-  }
-}
